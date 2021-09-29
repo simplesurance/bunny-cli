@@ -1,0 +1,6 @@
+# vim temp and swap files
+*~
+*.swp
+*.swo
+
+bunny-cli
