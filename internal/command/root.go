@@ -61,7 +61,7 @@ Supported Environment Variables:
 		},
 	}
 
-	cmd.RunE = cmd.runE
+	cmd.Run = cmd.run
 
 	cmd.PersistentFlags().StringVar(&apiKeyParam, "api-key", "", "API key")
 	cmd.PersistentFlags().BoolVar(&debugEnabled, "debug", false, "print debug message")
@@ -80,10 +80,15 @@ func Execute() {
 
 }
 
-func (c *rootCmd) runE(_ *cobra.Command, _ []string) error {
+func (c *rootCmd) run(_ *cobra.Command, _ []string) {
 	if c.printVersion {
 		fmt.Printf("bunny-cli version %s\n", version)
+		return
 	}
 
-	return nil
+	fmt.Fprintf(os.Stderr, "ERROR: command line arguments missing\n\n")
+	if err := c.Usage(); err != nil {
+		fmt.Fprintf(os.Stderr, "printing usage failed: %s\n", err)
+	}
+	os.Exit(1)
 }
