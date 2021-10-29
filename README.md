@@ -26,7 +26,20 @@ See the help output:
 ./bunny-cli --help
 ```
 
-##
+### Authentication
+
+The Bunny.net API key can either be passed as parameter on the command line:
+
+```sh
+./bunny-cli --api-key API-KEY pullzone list
+```
+
+or via the `BUNNY_API_KEY` environment variable:
+
+```sh
+export BUNNY_API_KEY=API-KEY
+./bunny-cli API-KEY pullzone list
+```
 
 ## Status
 
