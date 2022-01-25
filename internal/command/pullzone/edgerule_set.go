@@ -60,13 +60,13 @@ func (c *edgeRuleSetmd) runE(_ *cobra.Command, args []string) error {
 		return fmt.Errorf("edge rule definition must be supplied on stdin")
 	}
 
-	var updateOpts bunny.EdgeRule
+	var updateOpts bunny.AddOrUpdateEdgeRuleOptions
 
 	if err := json.Unmarshal(data, &updateOpts); err != nil {
 		return fmt.Errorf("edge rule format is invalid: %w", err)
 	}
 
-	err = clt.PullZone.EdgeRuleService(int64(pullZoneId)).AddOrUpdate(ctx, &updateOpts)
+	err = clt.PullZone.AddOrUpdateEdgeRule(ctx, int64(pullZoneId), &updateOpts)
 	if err != nil {
 		return err
 	}

@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/simplesurance/bunny-cli/internal/global"
+	bunny "github.com/simplesurance/bunny-go"
 )
 
 type edgeRuleEnableCmd struct {
@@ -75,7 +76,10 @@ func (c *edgeRuleEnableCmd) runE(_ *cobra.Command, args []string) error {
 		return errors.New("--enable or --disable must be specified, not both")
 	}
 
-	err := clt.PullZone.EdgeRuleService(c.pullzoneID).Enable(ctx, c.edgeRuleGUID, c.enable)
+	err := clt.PullZone.SetEdgeRuleEnabled(ctx, c.pullzoneID, c.edgeRuleGUID, &bunny.SetEdgeRuleEnabledOptions{
+		ID:    &c.pullzoneID,
+		Value: &c.enable,
+	})
 	if err != nil {
 		return err
 	}
