@@ -28,12 +28,12 @@ func newAddcmd() *addCmd {
 	}
 	cmd.RunE = cmd.runE
 
-	cmd.Flags().StringVar(&cmd.name, "name", "", "name of the pull zone, (optional)")
+	cmd.Flags().StringVar(&cmd.name, "name", "", "name of the pull zone")
 	cmd.Flags().StringVar(
 		&cmd.originURL,
 		"origin-url",
 		"",
-		"The origin URL of the pull zone where the files are fetched from. (optional)",
+		"The origin URL of the pull zone where the files are fetched from.",
 	)
 	cmd.Flags().Int64Var(
 		&cmd.storageZoneID,
@@ -47,6 +47,13 @@ func newAddcmd() *addCmd {
 		1,
 		"The type of the pull zone. Premium = 0, Volume = 1",
 	)
+
+	if err := cmd.MarkFlagRequired("name"); err != nil {
+		panic(err)
+	}
+	if err := cmd.MarkFlagRequired("origin-url"); err != nil {
+		panic(err)
+	}
 
 	return &cmd
 }
