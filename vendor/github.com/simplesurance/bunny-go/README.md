@@ -29,12 +29,12 @@ Endpoints](https://docs.bunny.net/reference/bunnynet-api-overview) are supported
     - [x] Set Edge Rule Enabled
     - [ ] Get Statistics
     - [ ] Purge Cache
-    - [ ] Load Free Certificate
-    - [ ] Add Custom Certificate
-    - [ ] Remove Certificate
-    - [ ] Add Custom Hostname
-    - [ ] Remove Custom Hostname
-    - [ ] Set Force SSL
+    - [x] Load Free Certificate
+    - [x] Add Custom Certificate
+    - [x] Remove Certificate
+    - [x] Add Custom Hostname
+    - [x] Remove Custom Hostname
+    - [x] Set Force SSL
     - [ ] Reset Token Key
     - [ ] Add Allowed Referer
     - [ ] Remove Allowed Referer
@@ -49,9 +49,48 @@ Endpoints](https://docs.bunny.net/reference/bunnynet-api-overview) are supported
 - [ ] Edge Storage API
 - [ ] Stream API
 
-### Example
+## Example
 
 See [client_example_test.go](client_example_test.go)
+
+## Design Principles
+
+- URL parameters are always passed by value as method parameter.
+- Data that is sent in the HTTP body is passed as struct
+  pointer to API methods.
+- Pointers instead of values are used to represent fields in body message
+  structs. \
+  The bunny.net API does not define which values are assumed if a field
+  is omitted in a request.
+  Using pointers allows to distinguish between empty fields and Golang's default
+  values for types. This prevents discrepancy between the interpretation of
+  missing fields of the bunny.net API and bunny-go.
+  Without using pointers it is for example not possible to distinguish between a
+  missing integer field in a JSON message and an integer that has a `0` value.
+- Message field names should be as close as possible to the JSON message field
+  names. Exception are permitted if the field in the JSON messages are
+  inconsistent and different names are used in the API for the same setting.
+  If names are inconsistent, the variant that is closer to the naming in the
+  Bunny.Net Admin Panel should be chosen. The exception must be documented in
+  the godoc.
+
+## Development
+
+### Running Integration Tests
+
+To run the integration test a Bunny.Net API Key is required. \
+The integration tests will create, modify and delete resources on your Bunny.Net
+account. Therefore it is **strongly recommended** to use a Bunny.Net account that is
+**not** used in production environments. \
+Bunny.Net might charge your account for certain API operations. \
+The integrationtest should remove all resources that they create. It can happen
+that cleaning up the resources fails and the account will contain test
+leftovers.
+
+```sh
+export BUNNY_API_KEY=MY-API-KEY
+make integrationtests
+```
 
 ## Status
 
