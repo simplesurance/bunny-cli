@@ -16,6 +16,7 @@ func Register(rootCmd *cobra.Command) {
 	root.AddCommand(&newEdgeRuleEnableCmd().Command)
 
 	root.AddCommand(&newAddCustomCertcmd().Command)
+	root.AddCommand(&newRemoveCertCmd().Command)
 
 	root.AddCommand(&newAddHostnameCmd().Command)
 
