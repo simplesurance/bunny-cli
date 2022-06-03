@@ -5,9 +5,9 @@
 bunny-cli is a command line tool to interact with the [Bunny.net
 API](https://bunny.net).
 
-The tool is mainly used to manually test the
+The tool was created to manually test the
 [github.com/simplesurance-bunny-go](https://github.com/simplesurance/bunny-go)
-that it is based on.
+package and make experimenting with the bunny API more user-friendly.
 
 ## Getting Started
 
